@@ -18,7 +18,14 @@ pipeline {
             steps {
                 sh 'aws s3 ls'
             }
-        } 
+        }
+        stage('Git Clone') {
+            steps {
+                sh 'rm -rf desafio3-despliegue2/'
+                sh 'git clone https://github.com/Luxcrift/desafio3-despliegue2.git'
+                sh 'ls -lrt desafio3-despliegue2/'
+            }
+        }
         stage('BUILD TO ZIP') {
             steps {
                 echo "Building ${BRANCH_NAME}"
