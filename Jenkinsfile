@@ -22,7 +22,7 @@ pipeline {
         }
          stage('Upload to S3') {
             steps {
-                sh 'aws s3 cp desafio3-despliegue2/data.csv s3://desafio3-bucket --recursive'
+                sh 'aws s3 cp desafio3-despliegue2 s3://desafio3-bucket --recursive'
             }
         }
     }
