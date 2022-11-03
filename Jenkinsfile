@@ -3,8 +3,8 @@ pipeline {
     environment{
         FUNCTION_NAME="csvtoDynamoDBimport"
         BUCKETS3="desafio3-bucket"
-        ZIP="function.zip"
-        CODE="lambda_function.py"
+        ZIP="data.zip"
+        FILE="data.csv"
     }
 
     stages {
@@ -28,14 +28,14 @@ pipeline {
         }
         stage('BUILD TO ZIP') {
             steps {
-                echo "Building ${BRANCH_NAME}"
-                sh 'zip -jr $ZIP $CODE'
+                echo "Building Main"
+                sh 'zip -jr $ZIP $FILE'
                 sh 'ls -lrt'
             }
         } 
         stage('Upload to S3') {
             steps {
-                sh 'aws s3 cp $ZIP s3://${BUCKETS3}'
+                sh 'aws s3 cp $ZIP s3://${BUCKETS3} --recursive'
             }
         } 
         stage('Deploy to Lambda') {
