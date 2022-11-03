@@ -4,7 +4,7 @@ pipeline {
         FUNCTION_NAME="csvtoDynamoDBimport"
         BUCKETS3="desafio3-bucket"
         ZIP="data.zip"
-        FILE="data"
+        FILE="desafio3-despliegue2/data.csv"
     }
 
     stages {
