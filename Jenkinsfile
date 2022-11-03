@@ -15,14 +15,14 @@ pipeline {
         }
         stage('Git Clone') {
             steps {
-                sh 'rm -rf S3-jenkins-web/'
-                sh 'git clone https://github.com/Luxcrift/S3-jenkins-web.git'
-                sh 'ls -lrt S3-jenkins-web/'
+                sh 'rm -rf desafio3-despliegue2/'
+                sh 'git clone https://github.com/Luxcrift/desafio3-despliegue2.git'
+                sh 'ls -lrt desafio3-despliegue2/'
             }
         }
          stage('Upload to S3') {
             steps {
-                sh 'aws s3 cp S3-jenkins-web s3://jenkins-mieulet --recursive'
+                sh 'aws s3 cp desafio3-despliegue2 s3://desafio3-mieulet --recursive'
             }
         }
     }
