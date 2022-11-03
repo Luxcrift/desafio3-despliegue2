@@ -1,20 +1,14 @@
 pipeline {
     agent any
-    environment{
-        FUNCTION_NAME="csvtoDynamoDBimport"
-        BUCKETS3="desafio3-bucket"
-        ZIP="data.zip"
-        FILE="desafio3-despliegue2/data.csv"
-    }
 
     stages {
-        stage('INIT') {
+        stage('AWS STS') {
             steps {
-                echo "Initializing Pipeline"
+                echo 'AWS STS'
                 sh 'aws sts get-caller-identity'
             }
         }
-        stage('AWS S3 ls') {
+        stage('AWS S3 listar') {
             steps {
                 sh 'aws s3 ls'
             }
@@ -26,22 +20,10 @@ pipeline {
                 sh 'ls -lrt desafio3-despliegue2/'
             }
         }
-        stage('BUILD TO ZIP') {
+         stage('Upload to S3') {
             steps {
-                echo "Building Main"
-                sh 'zip -jr $ZIP $FILE'
-                sh 'ls -lrt'
+                sh 'aws s3 cp desafio3-despliegue2/data.csv s3://jenkins-mieulet --recursive'
             }
-        } 
-        stage('Upload to S3') {
-            steps {
-                sh 'aws s3 cp $ZIP s3://${BUCKETS3} --recursive'
-            }
-        } 
-        stage('Deploy to Lambda') {
-            steps {
-                sh 'aws lambda update-function-code --function-name $FUNCTION_NAME --s3-bucket ${BUCKETS3} --s3-key $ZIP --publish'
-            }
-        }   
+        }
     }
 }
